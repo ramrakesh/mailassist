@@ -1,0 +1,1 @@
+var app = angular.module('mailAssistApp',['ngMessages','ngResource','ngRoute','ngMaterial']);

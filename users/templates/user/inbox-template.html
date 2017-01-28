@@ -1,0 +1,79 @@
+{% load staticfiles %}
+
+<div ng-controller = 'inboxController'>
+
+    <div class="progress" ng-if = 'loading'>
+        <div class="indeterminate"></div>
+    </div>
+
+    <div class="spacing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'user/img/inbox-banner.jpg' %}" alt = 'Inbox Banner' class="img-responsive">
+                    </div>
+                    <div class="card-content">
+                    	{% verbatim %}
+                        <h3 ng-if = 'loading' class="flow-text"><b>Getting your mails...</b></h3>
+                        <h3 ng-if = 'no_mails' class="flow-text"><b>No mails found</b></h3>
+                        <div  ng-if = 'mails_present' class = 'row mail-nav'>
+                            <div class="col s12">
+                                <a ng-if = '!allmails && !sel' class="black-text flow-text" ng-click = 'selAll()'><i class="material-icons">tab_unselected</i></a>
+                                <a ng-if = 'allmails || sel' class="blue-text text-darken-2 flow-text" ng-click = 'deSelAll()'><i class="material-icons">tab</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text flow-text"><i class="material-icons" ng-click = 'archive()'>work</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text flow-text"><i class="material-icons" ng-click = 'spam()'>report_problem</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text flow-text"><span class="glyphicon glyphicon-trash" ng-click = 'delete()'></span></a>
+                                <a ng-if = '!allmails && !sel' class="black-text flow-text"><i class="material-icons" ng-click = 'refresh()'>replay</i></a>
+                                <a ng-if = '!allmails && !sel && prev_but' class="black-text flow-text"><span class="glyphicon glyphicon-menu-right" ng-click = 'prev()'></span></a>
+                                <a ng-if = '!allmails && !sel && next_but' class="black-text flow-text"><span class="glyphicon glyphicon-menu-right" ng-click = 'next()'></span></a>
+                                
+                                <span class="secondary-content black-text flow-text">
+                                    <b>{{sInd}}-{{eInd}}</b> of <b>{{total}}</b>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div  ng-if = 'mails_present' class="row mail-item" ng-repeat = 'mail in messages' ng-class = 'mail.selected?"light-blue lighten-5":""'>
+                            <div class="col s5">
+                                <a ng-if = 'mail.selected' class="black-text"><i class="material-icons" ng-click = 'deSelectMail(mail.id)'>tab</i></a>
+                                <a ng-if = '!mail.selected' class="black-text"><i class="material-icons" ng-click = 'selectMail(mail.id)'>tab_unselected</i></a>
+                                <a ng-if = 'mail.starred' class="amber-text text-darken-2"><i class="material-icons" ng-click = 'deStarMail(mail.id)'>star</i></a>
+                                <a ng-if = '!mail.starred' class="indigo-text text-lighten-5"><i class="material-icons" ng-click = 'starMail(mail.id)'>star</i></a>
+                                <a ng-if = 'mail.important' class="amber-text text-darken-2"><i class="material-icons" ng-click = 'deImpMail(mail.id)'>label</i></a>
+                                <a ng-if = '!mail.important' class="indigo-text text-lighten-5"><i class="material-icons" ng-click = 'impMail(mail.id)'>label</i></a>
+                            </div>
+                            <div class="col s7 mail-time">
+                                <p><span ng-if = 'mail.files_attch' class="glyphicon glyphicon-paperclip"></span>&nbsp;{{mail.time}}</p>
+                            </div>
+                            <div class="col s12" ng-click = 'openMail(mail.id)'>
+                                <p><b>{{mail.from}}</b></p>
+                                <p>{{mail.subject}}</p>
+                            </div>
+                        </div>
+
+                        <div  ng-if = 'mails_present' class = 'row mail-nav'>
+                            <div class="col s12">
+                                <a ng-if = '!allmails && !sel' class="black-text" ng-click = 'selAll()'><i class="material-icons">tab_unselected</i></a>
+                                <a ng-if = 'allmails || sel' class="blue-text text-darken-2" ng-click = 'deSelAll()'><i class="material-icons">tab</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text"><i class="material-icons" ng-click = 'archive()'>work</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text"><i class="material-icons" ng-click = 'spam()'>report_problem</i></a>
+                                <a ng-if = 'allmails || sel' class="black-text"><i class="material-icons" ng-click = 'delete()'>delete</i></a>
+                                <a ng-if = '!allmails && !sel' class="black-text"><i class="material-icons" ng-click = 'refresh()'>replay</i></a>
+                                <a ng-if = '!allmails && !sel && prev_but' class="black-text"><i class="material-icons" ng-click = 'prev()'>skip_previous</i></a>
+                                <a ng-if = '!allmails && !sel && next_but' class="black-text"><i class="material-icons" ng-click = 'next()'>skip_next</i></a>
+                                
+                                <span class="secondary-content black-text flow-text">
+                                    <b>{{sInd}}-{{eInd}}</b> of <b>{{total}}</b>
+                                </span>
+                            </div>
+                        </div>
+	  					{% endverbatim %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

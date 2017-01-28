@@ -1,0 +1,39 @@
+{
+  
+  "manifest_version": 2,
+
+  "name": "MailAssist Task",
+  "description": "MailAssist Chrome Extension for viewing Tasks on a single click.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "img/mailassist-logo.png",
+    "default_popup": "index.html"
+  },
+
+  "icons": {
+    "64": "img/mailassist-logo.png",
+    "32": "img/mailassist-logo.png",
+    "16": "img/mailassist-logo.png"
+  },
+
+  "background": {
+    "scripts": ["lib/jquery/dist/jquery.js", "js/background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["lib/jquery/dist/jquery.js", "js/myscript.js"]
+    }
+  ],
+
+  "permissions": [
+    "<all_urls>",
+    "tabs",
+    "notifications"
+  ],
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+
+}

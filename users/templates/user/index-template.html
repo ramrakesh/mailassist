@@ -1,0 +1,132 @@
+{% load staticfiles %}
+
+<div class="back-head light-blue" ng-controller = 'todayController' ng-cloak>
+    <div class="spacing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text">
+                            {% verbatim %}
+                            <b>Today ({{getDay()}})</b>
+                            {% endverbatim %}
+                            <a class='secondary-content white-text dropdown-button' data-activates='today-dropdown'><span class="glyphicon glyphicon-option-vertical"></span></a>
+                            <ul id='today-dropdown' class='dropdown-content'>
+                                <li><a ng-click="checkAll()">Mark All Tasks as Completed</a></li>
+                                <li><a ng-click="unCheckAll()">Mark All Tasks as Pending</a></li>
+                                <li class="divider"></li>
+                                <li><a ng-click="dismissAll()">Dismiss All Tasks</a></li>
+                            </ul>
+                            <script type="text/javascript">
+                                $(document).ready(function(){
+                                    $('.dropdown-button').dropdown({
+                                        inDuration: 300,
+                                        outDuration: 225,
+                                        constrain_width: false, // Does not change width of dropdown to that of the activator
+                                        hover: false, // Activate on hover
+                                        gutter: 0, // Spacing from edge
+                                        belowOrigin: true, // Displays dropdown below the button
+                                        alignment: 'right' // Displays dropdown with edge aligned to the right of button
+                                        }
+                                    );
+                                });
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-content">
+                        <div class="progress" ng-if = 'loading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                        {% verbatim %}
+                        <h3 ng-if = 'loading' class="flow-text"><b>Getting tasks for today...</b></h3>
+                        <h3 ng-if = 'no_task' class="flow-text"><b>Congratulations you have no tasks for today.</b></h3>
+                        <h3 ng-if = 'tasks_present && task_nos != 0' class="flow-text"><b>You have {{task_nos}} <span ng-if = 'task_nos != 1'>tasks</span><span ng-if = 'task_nos == 1'>task</span> for today</b></h3>
+                        <p ng-if = 'tasks_present && task_nos == 0' class="flow-text justify"><b>Congratulations you have completed all your tasks for today.</b></p>
+                        <p ng-if = 'tasks_present && task_nos != 0' class="flow-text justify">Please find below a friendly reminder of the <span ng-if = 'task_nos != 1'>tasks that are</span><span ng-if = 'task_nos == 1'>task which is</span> due to be completed today.</p>
+                        <div ng-if = 'tasks_present' class="spacing"></div>
+                        <hr ng-if = 'tasks_present'>
+                        <div ng-repeat='task in tasks' ng-if = 'tasks_present' class = 'mail-item'>
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <a ng-click = 'unCheckTask(task.id)' ng-if = 'task.status == "done"' class="teal-text">
+                                        <md-tooltip md-direction="left">Mark as Pending</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-check'></span>
+                                    </a>
+                                    <a ng-click = 'checkTask(task.id)' ng-if = 'task.status == "pending"' class="black-text">
+                                        <md-tooltip md-direction="left">Mark as Completed</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-unchecked'></span>
+                                    </a>
+                                </div>
+                                <div class="col s8 m9 flow-text justify">
+                                    {{task.task}}
+                                </div>
+                                <div class="col s3 m2 right-align">
+                                    <a ng-if = 'task.typeTask == "mailer"' ng-click = 'viewTask(task.id)' class="black-text flow-text flow-text">
+                                        <md-tooltip md-direction="left">View Task</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-new-window'></span>
+                                    </a>
+                                    <a ng-click = 'editTask($event,task.id,task.task)' class="teal-text text-accent-4 flow-text">
+                                        <md-tooltip md-direction="left">Edit</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                    <a ng-click = 'dismissTask($event,task.id)' class="deep-orange-text text-accent-4 flow-text">
+                                        <md-tooltip md-direction="left">Dismiss</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-trash'></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div ng-if = 'tasks_present' class="row">
+                            <div class = "col s12">
+                                <button class="waves-effect waves-light btn-large teal accent-4" ng-click = 'save()'>
+                                    <span class = 'glyphicon glyphicon-floppy-disk'></span> Save as Pdf
+                                </button>
+                            </div>
+                        </div>
+                        <div ng-if = 'tasks_present' class="spacing"></div>
+                        <!-- <p ng-if = 'tasks_present' class="flow-text justify">If you no longer wish to recieve reminder notifications or emails you can unsubscribe from your <a href = '#/preferences' class="red-text text-darken-2">Preferences</a> Section.</p> -->
+                        {% endverbatim %}
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 right-align">
+                <button class="waves-effect waves-effect waves-light btn-large red accent-2" ng-click="addTask($event)">
+                    <span class="glyphicon glyphicon-plus"></span> Add new task
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="spacing"></div>
+    {% verbatim %}
+    <div id = 'taskList' class = "taskList">
+        <h2>MailAssist Task List</h2>
+        <h5>{{date_text}}</h5>
+        <p style="color:white;">Divider</p>
+        <h6 class="justify">Please find below a friendly reminder of the tasks that are due to be completed today.</h6>
+        <p style="color:white;">Divider</p>
+        <div ng-repeat = 'task in tasks'>
+            <p><b>Task {{$index + 1}}:</b> {{task.task}}</p>
+        </div>
+    </div>
+    {% endverbatim %}
+
+    <div id="modal1" class="modal bottom-sheet">
+        {% verbatim %}
+        <div class="modal-content">
+            <h4 class="flow-text"><b>Task:</b> {{taskShow.task}}</h4>
+            <h4 class="flow-text"><b>Notification:</b> {{taskShow.notif}}</h4>
+            <div class="spacing"></div>
+            <h5 class="flow-text"><b>Subject:</b> {{taskShow.subject}}</h5>
+            <h5 class="flow-text"><b>Message:</b> {{taskShow.content}}</h5>
+            <h5 class="flow-text"><b>Sender:</b> {{taskShow.sender}}</h5>
+            <div class="spacing"></div>
+            <a href = '{{taskShow.link}}' class="waves-effect waves-green btn blue accent-4" target = '_blank'>View Email</a>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+        </div>
+        {% endverbatim %}
+    </div>
+</div>

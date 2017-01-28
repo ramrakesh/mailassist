@@ -1,0 +1,47 @@
+<nav class="light-blue darken-2">
+	{% load staticfiles %}
+
+    <div class="nav-wrapper container">
+    
+        <a href="#/" class="brand-logo white-text">
+            <img src = '{% static "core/img/logo/mailassist-logo-dark.png" %}' alt = 'MailAssist' class = 'responsive-img small-logo' />
+            <span class = 'hide-on-med-and-down'>MailAssist</span>
+        </a>
+
+        <ul class="right hide-on-med-and-down">
+            
+            <!-- <li><a href = '#/plugin' class="white-text">Browser Plugin</a></li> -->
+            <!-- <li><a href = '#/mobile' class="waves-effect waves-blue btn red accent-2">Mobile App</a></li> -->
+            <li><a href = '#/plugin' class="waves-effect waves-blue btn red accent-2">Browser Plugin</a></li>
+        
+        </ul> 
+
+        <ul id = 'nav-mobile' class="side-nav">
+        
+            <li>
+                <div class="spacing"></div>
+                <figure>
+                    <img src = "{% static 'core/img/logo/mailassist-logo.png' %}" alt = "Mail Assist" class = 'responsive-img'/>
+                </figure>
+            </li>
+            <li>
+                <a href = '#/' class="waves-effect waves-teal btn-flat">MailAssist Home</a>
+            </li>
+            <li>
+            	<a href = '#/mobile' class="waves-effect waves-teal btn-flat">MailAssist Mobile</a>
+            </li>
+            <li>
+            	<a href = '#/plugin' class="waves-effect waves-teal btn-flat">MailAssist Plugin</a>
+            </li>
+        </ul>
+        
+        <a data-activates="nav-mobile" class="button-collapse white-text"><i class="material-icons">menu</i></a>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+        		$('.button-collapse').sideNav();
+        	});
+        </script>
+    
+    </div>
+
+</nav>

@@ -1,0 +1,20 @@
+<nav class="light-blue darken-2">
+	{% load staticfiles %}
+
+    <div class="nav-wrapper container">
+    
+        <a href="#/" class="brand-logo white-text">
+            <img src = '{% static "core/img/logo/mailassist-logo-dark.png" %}' alt = 'MailAssist' class = 'responsive-img small-logo' />
+            <span class = 'hide-on-med-and-down'>MailAssist</span>
+        </a>
+
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.button-collapse').sideNav();
+            });
+        </script>
+    
+    </div>
+
+</nav>

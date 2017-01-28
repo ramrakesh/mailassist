@@ -1,0 +1,26 @@
+{
+  
+  "manifest_version": 2,
+
+  "name": "MailAssist Mail Parser",
+  "description": "MailAssist Chrome Extension which provides basic assistance after sending emails, suggest reminders and add them to the calender.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "img/plugin-message-logo.png",
+    "default_popup": "index.html"
+  },
+
+  "icons": {
+    "64": "img/plugin-message-logo.png",
+    "32": "img/plugin-message-logo.png",
+    "16": "img/plugin-message-logo.png"
+  },
+
+  "permissions": [
+    "<all_urls>",
+    "tabs",
+    "activeTab"
+  ]
+
+}

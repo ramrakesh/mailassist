@@ -1,0 +1,114 @@
+{% load staticfiles %}
+
+<div class="back-head light-blue" ng-controller = 'keywordsController' ng-cloak>
+    <div class="spacing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text"><b>Keywords</b></p>
+                    </div>
+                    <div class="card-content">
+                        <div class="progress" ng-if = 'loading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                        {% verbatim %}
+                        <h3 ng-if = 'loading' class="flow-text"><b>Getting your keywords...</b></h3>
+                        <h3 ng-if = 'no_key' class="flow-text"><b>No keywords are present</b></h3>
+                        <div ng-if = 'key_present' ng-repeat = 'key in keys'>
+                            <div ng-if = 'key != ""' class="rem-header cyan darken-4">
+                                <p class="white-text flow-text">
+                                    <b>{{key | uppercase}}</b>
+                                    <a class="white-text" ng-click = 'keyEdit($event,key)'>
+                                        <md-tooltip md-direction="left">Edit Keyword</md-tooltip>
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                    <span class="secondary-content ">
+                                        <a class="white-text" ng-click = 'addAction($event,key)'>
+                                            <md-tooltip md-direction="left">Add New Action</md-tooltip>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </a>                                        
+                                        <a class="white-text" ng-click = 'dismissKey($event,key)'>
+                                            <md-tooltip md-direction="left">Delete Keyword</md-tooltip>
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </span>
+                                </p>
+                            </div>
+                            <div ng-if = 'key != ""' class="task-item">
+                                <div ng-repeat='kw in keywords | filter:key'>
+                                    <div class="row">
+                                        <div class="col s1 m1 flow-text">
+                                            <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                        </div>
+                                        <div class="col s8 m9 flow-text justify">
+                                            {{kw.action}}
+                                        </div>
+                                        <div class="col s3 m2 right-align">
+                                            <a ng-click = 'actionEdit($event,key, kw.action, kw.id)' class="teal-text text-accent-4 flow-text">
+                                                <md-tooltip md-direction="left">Edit Action</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-pencil'></span>
+                                            </a>
+                                            <a ng-click = 'dismissAction($event,kw.id)' class="deep-orange-text text-accent-4 flow-text">
+                                                <md-tooltip md-direction="left">Delete Action</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-trash'></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div ng-if = 'key_present' class="spacing"></div>
+                        {% endverbatim %}
+                    </div>
+                </div>
+            </div>
+            <div ng-if = '!addKeyTemp' class="col s12 right-align">
+                <button class="waves-effect waves-effect waves-light btn-large red accent-2" ng-click="openKeyConsole()">
+                    <span class="glyphicon glyphicon-plus"></span> Add New Keyword
+                </button>
+            </div>
+        </div>
+    </div>
+    <div ng-if = 'addKeyTemp' class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text">
+                            <b>Add new keyword</b>
+                            <a class="secondary-content white-text" ng-click="closeKeyConsole()"><md-tooltip md-direction="left">Cancel</md-tooltip><span class="glyphicon glyphicon-remove"></span></a>
+                        </p>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <label for="input_text1">Keyword</label>
+                                <input id = 'input_text1' type="text" ng-model = 'newKey.key'>
+                            </div>
+                            <div class="input-field col s12 m8">
+                                <input id="input_text" type="text" ng-model = 'newKey.action' ng-change = 'validForm()'>
+                                <label for="input_text">Action</label>
+                            </div>                            
+                            <div class="col s12" ng-if = '!addKeyLoading'>
+                                <button class="waves-effect waves-light btn-large n-but red accent-2" ng-click = 'addNewKey()'>
+                                    <span class="glyphicon glyphicon-plus"></span> Add
+                                </button>
+                            </div>
+                            {% verbatim %}
+                            <div ng-if = 'addKeyErrorP' class="col s12">
+                                <h3 class="flow-text red-text">{{addKeyError}}
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                        <div class="progress" ng-if = 'addKeyLoading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

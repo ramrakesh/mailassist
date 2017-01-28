@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html ng-app = "mailAssistApp" itemscope itemtype="http://schema.org/Article">
+	<head>
+
+		<meta charset = "utf-8">
+        <title>MailAssist Mail Parser</title>
+		
+		<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        <link rel="stylesheet" type = 'text/css' href="https://fonts.googleapis.com/icon?family=Material+Icons" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/bootstrap/css/bootstrap.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/bootstrap/css/bootstrap-theme.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/materialize/css/materialize.min.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/angular-material/angular-material.min.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/angular-material/angular-material.min.css" media="screen,projection">
+        <link rel="stylesheet" type = "text/css" href="css/style.css" media="screen,projection">
+
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/materialize/js/materialize.js"></script>        
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular/angular-animate.min.js"></script>
+        <script src="lib/angular/angular-aria.min.js"></script>
+        <script src="lib/angular/angular-messages.min.js"></script>
+        <script src="lib/angular-material/angular-material.min.js"></script>
+        <script src="lib/angular/angular-resource.min.js"></script>        
+        <script src="lib/angular/angular-route.min.js"></script>
+        <script src="lib/jsPDF-master/dist/jspdf.debug.js"></script>
+        
+	</head>
+	<body ng-controller = 'mailAssistController' ng-cloak>
+
+        <!-- Page Loading -->
+        <div class="progress" ng-if = 'loading'>
+            <div class="indeterminate light-blue"></div>
+        </div>
+
+        <!-- Header -->
+        <header ng-if = 'session'>
+            <nav class="light-blue darken-2">
+                <div class="nav-wrapper container">                
+                    <span class = 'flow-text'><b>MailAssist</b></span>
+                    <span class='secondary-content white-text flow-text'>Signed in as: <b>{{name}}</b></span>                
+                </div>
+            </nav>
+        </header>
+
+		<!-- Content No Session -->
+        <main class="light-blue darken-2" ng-if = 'noSession'>
+            <div class="row">
+                <div class = "col s8 offset-s2">
+                    <figure>
+                        <img src = 'img/mailassist-logo-dark.png' alt = 'MailAssist' class = 'responsive-img' />
+                    </figure>
+                    <h3 class="center white-text darken-4">MailAssist</h3>
+                    <h3 class="center white-text flow-text">You are not logged in</h3>
+                    <button class="waves-effect waves-light btn-large red accent-2 l-but" ng-click = 'loginPage()'>
+                        <span class = 'glyphicon glyphicon-home'></span> Go to MailAssist Home
+                    </button>
+                    <div class="spacing"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Content Session -->
+        <main ng-if = 'session'>
+            <div class="back-head light-blue">
+                <div class="spacing"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card">                                
+                                <div class="page-head red accent-2">
+                                    <p class="white-text flow-text">
+                                        <b>Messages</b>
+                                        <a ng-click = 'readPage()' class="secondary-content white-text" ng-if ='msgsDone'><u>Read Page</u></a>
+                                    </p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="progress" ng-if = 'loadingMsgs'>
+                                        <div class="indeterminate light-blue"></div>
+                                    </div>
+                                    <p class="flow-text" ng-if = 'loadingMsgs'>Reading Current Page...</p> 
+                                    <p class="flow-text" ng-if = '!loadingMsgs && msgsDone && (msgsNo == 0)'>No Messages Found.</p> 
+                                    <p class="flow-text" ng-if = '!loadingMsgs && msgsDone && (msgsNo == 1)'>{{msgsNo}} Message Found</p> 
+                                    <p class="flow-text" ng-if = '!loadingMsgs && msgsDone && (msgsNo > 1)'>{{msgsNo}} Messages Found</p>
+                                    <p class="flow-text" ng-if = '!loadingMsgs && parseFail'>No Messages Found.</p>
+                                </div>
+                            </div>
+                            <div class="spacing"></div>
+                        </div>
+                        <div  class="col s12" ng-if = '!loadingMsgs && msgsDone' ng-repeat = 'msg in messages'>
+                            <div class="card">
+                                <div class="page-head blue darken-3">
+                                    <p class="white-text flow-text">
+                                        <b ng-if = 'msg.subject != ""'>{{msg.subject}}</b>
+                                        <b ng-if = 'msg.subject == ""'>No Subject</b>
+                                        <a ng-click = 'delMessage(msg.message_id)' class="secondary-content glyphicon glyphicon-remove-circle white-text"></a>
+                                    </p>
+                                </div>
+                                <div class="card-content">
+                                    <p class="flow-text"><b>Message:</b></p>
+                                    <!-- <p class="flow-text msg-cont">{{msg.contentDecoded}}</p>  -->
+                                    <p class="flow-text msg-cont" ng-if = 'msg.small'>{{showMsgContent(msg.cleanContent)}} <a ng-if = 'checkMsgLength(msg.cleanContent)' ng-click = 'toggleMail(msg.message_id)' class="cyan-text">(More)</a></p> 
+                                    <p class="flow-text msg-cont" ng-if = '!msg.small'>{{msg.cleanContent}} <a ng-if = 'checkMsgLength(msg.cleanContent)' ng-click = 'toggleMail(msg.message_id)' class="cyan-text">(Less)</a></p> 
+                                    <div class="spacing"></div>
+                                    <p class="flow-text"><b>From:</b></p>
+                                    <p class="flow-text">{{msg.sender}}</p> 
+                                    
+                                    <div class="spacing"></div>
+                                    
+                                    <button class="waves-effect waves-light btn teal accent-4 l-but" ng-if = '!msg.showRemsLoading' ng-click = 'getRemsForMessage(msg.message_id)'>Get Reminders</button>                         
+                                    
+                                    <div class = 'spacing' ng-if = 'msg.remSug && !msg.showRemsLoading'></div>
+
+                                    <p class="flow-text" ng-if = '!msg.remSug && msg.showRemsLoading'><b><em>Getting Reminder Suggestions...</em></b></p> 
+                                    <p class="flow-text" ng-if = 'msg.remSug && !msg.showRemsLoading'><b>Reminder Suggestions:</b></p>
+                                    <p class="flow-text" ng-if = 'msg.remSug && (msg.remSugNo == 0) && !msg.showRemsLoading'>No Reminder Suggestions</p> 
+                                    <p class="flow-text" ng-if = 'msg.remSug && (msg.remSugNo == 1) && !msg.showRemsLoading'>{{msg.remSugNo}} Suggestion</p> 
+                                    <p class="flow-text" ng-if = 'msg.remSug && (msg.remSugNo > 1) && !msg.showRemsLoading'>{{msg.remSugNo}} Suggestions</p>
+                                    <div ng-if = 'msg.remSug && !msg.showRemsLoading' class="spacing"></div>
+                                    <p ng-if = 'msg.remSug && !msg.showRemsLoading && checkUserRemNo(msg.message_id)' class="flow-text teal-text"><b><u>User Defined</u></b> (<a ng-click = 'delUserRems(msg.message_id)'>Dismiss All</a>)</p>
+                                    <div class="spacing" ng-if = 'msg.remSug && !msg.showRemsLoading && checkUserRemNo(msg.message_id)'></div>
+                                    <div ng-if = 'msg.remSug && !msg.showRemsLoading' ng-repeat = 'rem in msg.remSugs'>
+                                        <div class = 'row' ng-if = 'rem.type=="user"'>
+                                            <div class="col s1">
+                                                <span class = 'glyphicon glyphicon-chevron-right flow-text'></span>
+                                            </div>
+                                            <div class="col s9">
+                                                <span class="flow-text">{{rem.rem}}</span>
+                                                <br>
+                                                <span ng-if = 'rem.date != ""'>{{conDate(rem.date)}}</span>
+                                                <span ng-if = 'rem.date == ""'>Add Date</span>
+                                            </div>
+                                            <div class="col s2 right-align">
+                                                <span><a ng-click = 'editRem(msg.message_id, rem.id)' class = 'glyphicon glyphicon-pencil flow-text'></a></span>
+                                                <span><a ng-click = 'delRem(msg.message_id,rem.id)' class = 'glyphicon glyphicon-trash flow-text red-text'></a></span>
+                                            </div>
+                                        </div>
+                                        <hr ng-if = 'rem.type=="user"'>
+                                    </div>
+                                    <div ng-if = 'msg.remSug && !msg.showRemsLoading && checkSysRemNo(msg.message_id)' class="spacing"></div>
+                                    <p ng-if = 'msg.remSug && !msg.showRemsLoading && checkSysRemNo(msg.message_id)' class="flow-text teal-text"><b><u>System Defined</u></b> (<a ng-click = 'delSysRems(msg.message_id)'>Dismiss All</a>)</p>
+                                    <div ng-if = 'msg.remSug && !msg.showRemsLoading' class="spacing"></div>
+                                    <div ng-if = 'msg.remSug && !msg.showRemsLoading' ng-repeat = 'rem in msg.remSugs'>
+                                        <div class = 'row' ng-if = 'rem.type=="system"'>
+                                            <div class="col s1">
+                                                <span class = 'glyphicon glyphicon-chevron-right flow-text'></span>
+                                            </div>
+                                            <div class="col s9">
+                                                <span class="flow-text">{{rem.rem}}</span>
+                                                <br>
+                                                <span ng-if = 'rem.date != ""'>{{conDate(rem.date)}}</span>
+                                                <span ng-if = 'rem.date == ""'>Add Date</span>
+                                            </div>
+                                            <div class="col s2 right-align">
+                                                <span><a ng-click = 'editRem(msg.message_id, rem.id)' class = 'glyphicon glyphicon-pencil flow-text'></a></span>
+                                                <span><a ng-click = 'delRem(msg.message_id,rem.id)' class = 'glyphicon glyphicon-trash flow-text red-text'></a></span>
+                                            </div>
+                                        </div>
+                                        <hr ng-if = 'rem.type=="system"'>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s6">
+                                            <button ng-if = 'msg.remSug && msg.remSugNo != 0 && !msg.showRemsLoading' ng-click = 'delAllRems(msg.message_id)' class="waves-effect waves-light btn red darken-1 l-but">
+                                                <span class = 'glyphicon glyphicon-trash'></span> 
+                                                <span>Dismiss All</span>
+                                            </button>
+                                        </div>
+                                        <div class="col s6">
+                                            <button ng-if = 'msg.remSug && !msg.showRemsLoading' ng-click = 'addRem(msg.message_id)' class="waves-effect waves-light btn teal accent-4 l-but">
+                                                <span class = 'glyphicon glyphicon-plus'></span> 
+                                                <span>Add New Reminder</span>
+                                            </button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="col s12" ng-if = '!loadingMsgs && msgsDone'>
+                            <div class="card">
+                                <div class="page-head teal darken-4">
+                                    <p class="white-text flow-text">
+                                        Notification Settings
+                                    </p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="col s1 m1 flow-text">
+                                            <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                        </div>
+                                        <div class="col s8 m9 flow-text justify">
+                                            <b>Enable Notification</b>                                            
+                                        </div>
+                                        <div class="col s3 m2 right-align">
+                                            <div class="switch">
+                                                <label>
+                                                    <input type="checkbox" ng-model = 'enNot.en'>
+                                                    <span class="lever"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="spacing"></div>
+                                    <div class = 'row'>
+                                        <form ng-submit = 'enNotSub()'>
+                                            <div class="col input-field s12">
+                                                <label class="active">Notification Message</label>
+                                                <input type = 'text' ng-model = 'enNot.not' placeholder="Notification Message" />
+                                            </div>
+                                            <div class="col input-field s8">
+                                                <label class="active">Email</label>
+                                                <input type = 'text' ng-model = 'enNot.email' placeholder="Email of Recepient" />
+                                            </div>
+                                            <div class="col input-field s4">
+                                                <label class="active">Date</label>
+                                                <input type = 'text' ng-model = 'enNot.date' placeholder="Date of Notification (DD-MM-YYYY)" />
+                                            </div>
+                                            <div ng-if = '!loadingEnNot' class="col input-field s12">
+                                                <input type = 'submit' class="waves-effect waves-green btn blue accent-4" value = 'Save'/>
+                                            </div>
+                                        </form>
+                                        <div class="col input-field s12">
+                                            <div class="progress" ng-if = 'loadingEnNot'>
+                                                <div class="indeterminate light-blue"></div>
+                                            </div>                                    
+                                            <span class = 'flow-text'>{{enNotError}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer ng-if = 'session'>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12" ng-if = 'remSugNo != 0'>
+                        <button class="waves-effect waves-light btn-large blue accent-4 l-but flow-text" ng-click = 'saveRems()'>
+                            <span class = 'glyphicon glyphicon-floppy-disk'></span> 
+                            <span ng-if = '(remSugNo == 1)'>Save Reminder</span>
+                            <span ng-if = '(remSugNo > 1)'>Save Reminders</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <button class="waves-effect waves-light btn-large red accent-2 l-but flow-text" ng-click = 'openHome()'>
+                            <span class = 'glyphicon glyphicon-home'></span> Go to MailAssist Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright light-blue darken-3">
+                <div class="container">
+                    <p class="grey-text text-lighten-4">Signed in as: <b>{{name}} ({{email}})</b></p>
+                </div>
+            </div>
+        </footer>
+
+        <div id="modal1" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h4>Add New Reminder</h4>
+                <div class="spacing"></div>
+                <div class = 'row'>
+                    <form ng-submit = 'addnewRem()'>
+                        <div class="col input-field s8">
+                            <label class="active">Reminder</label>
+                            <input type = 'text' ng-model = 'newRemForm.rem' placeholder="Reminder" />
+                        </div>
+                        <div class="col input-field s4">
+                            <label class="active">Date</label>
+                            <input type = 'text' ng-model = 'newRemForm.date' placeholder="Date of Reminder (DD-MM-YYYY)" />
+                        </div>
+                        <div ng-if = '!loadingAddNew' class="col input-field s12">
+                            <input type = 'submit' class="waves-effect waves-green btn blue accent-4" value = 'Add Reminder'/>
+                        </div>
+                    </form>
+                    <div class="col input-field s12">
+                        <div class="progress" ng-if = 'loadingAddNew'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>                                    
+                        <span class = 'red-text flow-text'>{{newRemError}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+        <div id="modal2" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h4>Edit Reminder</h4>
+                <p class="flow-text">Current Reminder: {{editRemView.rem}}</p>
+                <p class="flow-text">Current Date of Reminder: {{conDate(editRemView.date)}}</p>
+                <div class="spacing"></div>
+                <div class = 'row'>
+                    <form ng-submit = 'editnewRem()'>
+                        <div class="col input-field s8">
+                            <label class="active">Reminder</label>
+                            <input type = 'text' ng-model = 'editRemForm.rem' placeholder="Reminder" />
+                        </div>
+                        <div class="col input-field s4">
+                            <label class="active">Date</label>
+                            <input type = 'text' ng-model = 'editRemForm.date' placeholder="Date of Reminder (DD-MM-YYYY)" />
+                        </div>
+                        <div ng-if = '!loadingEditRem' class="col input-field s12">
+                            <input type = 'submit' class="waves-effect waves-green btn blue accent-4" value = 'Update'/>
+                        </div>
+                    </form>
+                    <div class="col input-field s12">
+                        <div class="progress" ng-if = 'loadingEditRem'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>                                    
+                        <span class = 'red-text flow-text'>{{editRemError}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+        <div id="modal3" class="modal bottom-sheet">
+            <div class="modal-content">
+                <p class="flow-text">{{saveRemError}}</p>
+            </div>
+            <div ng-if = 'loadingSaveRem' class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+            </div>
+        </div>
+
+        <!-- App Controllers -->
+        <script type="text/javascript" src = "js/app.js"></script>
+        <script type="text/javascript" src = "js/controllers/main-controller.js"></script>
+
+	</body>
+</html>

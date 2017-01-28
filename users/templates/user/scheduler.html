@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app = "mailAssistApp" itemscope itemtype="http://schema.org/Article">
+	<head>
+
+		<meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Admin | MailAssist Console</title>
+		
+		<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        {% load staticfiles %}
+
+		<link rel="stylesheet" type = 'text/css' href="https://fonts.googleapis.com/icon?family=Material+Icons" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/bootstrap/css/bootstrap.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/bootstrap/css/bootstrap-theme.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/materialize/css/materialize.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/angular-material/angular-material.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/angular-material/angular-material.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = "text/css" href="{% static 'core/css/style.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = "text/css" href="{% static 'user/css/style-user.css' %}" media="screen,projection">
+
+        <script src="{% static 'core/lib/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'core/lib/materialize/js/materialize.js' %}"></script>        
+        <script src="{% static 'core/lib/angular/angular.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-animate.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-aria.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-messages.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular-material/angular-material.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-resource.min.js' %}"></script>        
+        <script src="{% static 'core/lib/angular/angular-route.min.js' %}"></script>
+        <script src="{% static 'core/lib/jsPDF-master/dist/jspdf.debug.js' %}"></script>
+        
+	</head>
+	<body>
+
+        
+        <div class = 'container'>
+            <div class="spacing"></div>
+            <h1>Schedulers</h1>
+            <hr>
+            <div class="row" ng-controller = 'schedulerController' ng-cloak>
+                <div class="col s3">
+                    <button ng-click = 'dailyRem()' class="waves-effect waves-light btn-large l-but">Daily Reminder</button>
+                </div>
+                <div class="col s3">
+                    <button ng-click = 'missRem()' class="waves-effect waves-light btn-large l-but">Missed Reminder</button>
+                </div>
+                <div class="col s3">
+                    <button ng-click = 'upRem()' class="waves-effect waves-light btn-large l-but">Upcoming Reminder</button>
+                </div>
+                <div class="col s3">
+                    <button ng-click = 'deadRem()' class="waves-effect waves-light btn-large l-but">After Deadline</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Controllers -->
+        <script type="text/javascript" src = "{% static 'user/controllers/app.js' %}"></script>
+        <script type="text/javascript" src = "{% static 'user/controllers/controllers/scheduler-controller.js' %}"></script>
+        
+	</body>
+</html>

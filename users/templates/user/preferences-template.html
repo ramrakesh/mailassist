@@ -1,0 +1,256 @@
+{% load staticfiles %}
+
+<div class="back-head light-blue" ng-controller = 'preferenceController' ng-cloak>
+    <div class="spacing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text"><b>General Preferences</b></p>
+                    </div>
+                    <div class="card-content">
+                        <div class="progress" ng-if = 'loading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                        {% verbatim %}
+                        <!-- <div class="rem-header cyan darken-4">
+                            <p class="white-text flow-text">
+                                <b>Inbox/Sent</b>
+                            </p>
+                        </div>
+                        <div class="task-item">
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s9 m10 flow-text justify">
+                                    <b>Number of Emails</b>
+                                    <br>
+                                    <em class="light-blue-text text-darken-4">{{emailNo}}</em>
+                                </div>
+                                <div class="col s2 m1 right-align">
+                                    <a class="cyan-text text-accent-4 flow-text" ng-click = 'emailNoToggle()'>
+                                        <md-tooltip md-direction="left">Modify</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s9 m10 flow-text justify">
+                                    <b>Time Period</b>
+                                    <br>
+                                    <em class="light-blue-text text-darken-4">{{timePerTextVal}}</em>
+                                </div>
+                                <div class="col s2 m1 right-align">
+                                    <a class="cyan-text text-accent-4 flow-text" ng-click = 'timePerToggle()'>
+                                        <md-tooltip md-direction="left">Modify</md-tooltip>
+                                        <span class = 'glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="update-ene" class="modal">
+                                <div class="modal-content">
+                                    <h4 class="flow-text">Update Number of Emails</h4>
+                                    <div class = 'row'>
+                                        <div class="input-field col s10 offset-s1">
+                                            <input name="group2" ng-model = 'emailNoModify.val' value = '50' type="radio" id="test3" />
+                                            <label for="test3">50</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group2" ng-model = 'emailNoModify.val' value = '100' type="radio" id="test4" />
+                                            <label for="test4">100</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group2" ng-model = 'emailNoModify.val' value = '200' type="radio" id="test5" />
+                                            <label for="test5">200</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group2" ng-model = 'emailNoModify.val' value = '300' type="radio" id="test6" />
+                                            <label for="test6">300</label>
+                                        </div>
+                                        <div class="col s10 offset-s1">
+                                            <div class="spacing"></div>
+                                            <button class="n-but waves-effect waves-light btn teal darken-2" ng-click = 'updateEmailNo()'>Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <a ng-click = 'emailNoToggle()' class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                                </div>
+                            </div>
+                            <div id="update-tpe" class="modal">
+                                <div class="modal-content">
+                                    <h4 class="flow-text">Update Time Period</h4>
+                                    <div class = 'row'>
+                                        <div class="input-field col s10 offset-s1">
+                                            <input name="group3" ng-model = 'timePerModify.val' value = '1' type="radio" id="test6" />
+                                            <label for="test6">Last 1 day</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group3" ng-model = 'timePerModify.val' value = '7' type="radio" id="test7" />
+                                            <label for="test7">Last 1 week</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group3" ng-model = 'timePerModify.val' value = '14' type="radio" id="test9" />
+                                            <label for="test9">Last 2 weeks</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input name="group3" ng-model = 'timePerModify.val' value = '30' type="radio" id="test8" />
+                                            <label for="test8">Last 1 month</label>
+                                        </div>
+                                        <div class="col s10 offset-s1">
+                                            <div class="spacing"></div>
+                                            <button class="n-but waves-effect waves-light btn teal darken-2" ng-click = 'updateTimePer()'>Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <a ng-click = 'timePerToggle()' class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="rem-header cyan darken-4">
+                            <p class="white-text flow-text">
+                                <b>Notification</b>
+                            </p>
+                        </div>
+                        <div class="task-item">
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s8 m9 flow-text justify">
+                                    <b>App Notification</b>
+                                    <br>
+                                    <em ng-if = 'appNot' class="light-blue-text text-darken-4">ON</em>
+                                    <em ng-if = '!appNot' class="light-blue-text text-darken-4">OFF</em>
+                                </div>
+                                <div class="col s3 m2 right-align">
+                                    <div class="switch">
+                                        <label>
+                                            <input type="checkbox" ng-model = 'appNot' ng-change = 'appNotToggle()'>
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s8 m9 flow-text justify">
+                                    <b>SMS Notification</b>
+                                    <br>
+                                    <em ng-if = 'smsNot' class="light-blue-text text-darken-4">ON</em>
+                                    <em ng-if = '!smsNot' class="light-blue-text text-darken-4">OFF</em>
+                                </div>
+                                <div class="col s3 m2 right-align">
+                                    <div class="switch">
+                                        <label>
+                                            <input type="checkbox" ng-model = 'smsNot' ng-change = 'smsNotToggle()'>
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr> -->
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s8 m9 flow-text justify">
+                                    <b>Desktop Notification</b>
+                                    <br>
+                                    <em ng-if = 'deskNot' class="light-blue-text text-darken-4">ON</em>
+                                    <em ng-if = '!deskNot' class="light-blue-text text-darken-4">OFF</em>
+                                </div>
+                                <div class="col s3 m2 right-align">
+                                    <div class="switch">
+                                        <label>
+                                            <input type="checkbox" ng-model = 'deskNot' ng-change = 'browserNotToggle()'>
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s9 m10 flow-text justify">
+                                    <b>Time of Notification</b>
+                                    <br>
+                                    <em class="light-blue-text text-darken-4">{{timeNot}}</em>
+                                </div>
+                                <div class="col s2 m1 right-align">
+                                    <a ng-click = 'timeNotToggle()' class="teal-text">
+                                        <md-tooltip md-direction="left">Modify</md-tooltip>
+                                        <span class="glyphicon glyphicon-pencil flow-text"></span>
+                                    </a>
+                                </div>                                
+                                <div id="update-ton" class="modal">
+                                    <div class="modal-content">
+                                        <h4 class="flow-text">Update Time of Notification</h4>
+                                        <div class = 'row'>
+                                            <div class="input-field col s5 offset-s1 m3 offset-m1 l2 offset-l1 center">
+                                                <div class="spacing"></div>
+                                                <label>HH</label>
+                                                <input type = 'number' ng-model = 'timeModify.hh' min = 1 max = 12 placeholder="HH" class="center">
+                                            </div>
+                                            <div class="input-field col s5 m3 l2 center">
+                                                <div class="spacing"></div>
+                                                <label>MM</label>
+                                                <input type = 'number' ng-model = 'timeModify.mm' min = 0 max = 59 placeholder="MM" class="center">
+                                            </div>
+                                            <div class="col s10 offset-s1">
+                                                <div class="spacing"></div>
+                                                <input name="group1" ng-model = 'timeModify.tm' value = 'AM' type="radio" id="test1" />
+                                                <label for="test1">AM</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <input name="group1" ng-model = 'timeModify.tm' value = 'PM' type="radio" id="test2" />
+                                                <label for="test2">PM</label>
+                                            </div>
+                                            <div class="col s10 offset-s1">
+                                                <div class="spacing"></div>
+                                                <button class="waves-effect waves-light btn teal darken-2 n-but" ng-click = 'updateTime()'>Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <a ng-click = 'timeNotToggle()' class="modal-action modal-close waves-effect waves-teal btn-flat">Cancel</a>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <hr>
+                            <!-- <div class="row">
+                                <div class="col s1 m1 flow-text">
+                                    <b><span class = 'glyphicon glyphicon-chevron-right'></span></b>
+                                </div>
+                                <div class="col s9 m10 flow-text justify">
+                                    <b>Mobile Number for SMS Notification</b>
+                                    <br>
+                                    <em ng-if = 'mob=="99999999999"' class="light-blue-text text-darken-4">Mobile Number not added</em>
+                                    <em ng-if = '!(mob=="99999999999")' class="light-blue-text text-darken-4">{{mob}}</em> <span ng-if = '!(mob=="99999999999") && !mobVer' class = 'red-text text-darken-3'>(Not Verified)</span><span ng-if = '!(mob=="99999999999") && mobVer' class = 'green-text text-accent-4'>(Verified)</span> <a ng-if = '!(mob=="99999999999") && !mobVer' ng-click = 'verificationPhoneNew()'>Click here to verify</a>
+                                </div>
+                                <div class="col s2 m1 right-align">
+                                    <a ng-if = '!(mob=="99999999999")' ng-click = 'addPhone($event)'>
+                                        <md-tooltip md-direction="left">Modify</md-tooltip>
+                                        <span class="glyphicon glyphicon-pencil flow-text"></span>
+                                    </a>
+                                    <a ng-if = 'mob=="99999999999"' ng-click = 'addPhone($event)'>
+                                        <md-tooltip md-direction="left">Add Phone</md-tooltip>
+                                        <span class="glyphicon glyphicon-plus flow-text"></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr> -->
+                        </div>
+                        {% endverbatim %}                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

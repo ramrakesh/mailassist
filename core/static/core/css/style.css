@@ -1,0 +1,195 @@
+font-face {
+    font-family: Arima;
+    src: url('../fonts/Arima/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: Lato;
+    src: url('../fonts/Lato/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url('../fonts/Montserrat/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    font-family: Open_Sans;
+    src: url('../fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: Oswald;
+    src: url('../fonts/Oswald/Oswald-Regular.ttf');
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../fonts/Roboto/Roboto-Regular.ttf');
+}
+
+body{
+    font-family: Open_Sans;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.justified{
+    text-align: justify;
+}
+
+.n-but{
+    margin: 5px;
+}
+
+@media screen and (max-width:600px){
+    .spacing{       
+        height: 1em;
+    }
+    .hide-on-small{
+        display: none;
+    }
+    .n-but{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width:600px) and (max-width:900px){
+    .spacing{       
+        height: 2.5em;
+    }
+    .hide-on-small{
+        display: none;
+    }
+    .n-but{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width:900px){
+    .spacing{       
+        height: 3em;
+    }
+}
+
+.progressLineardemoBasicUsage body {
+    padding: 20px; 
+}
+
+.progressLineardemoBasicUsage h4 {
+    margin: 10px 0; 
+}
+
+.progressLineardemoBasicUsage md-progress-linear {
+    padding-top: 10px;
+    margin-bottom: 20px; 
+}
+
+.progressLineardemoBasicUsage #loaders > md-switch {
+     margin: 0;
+     margin-left: 10px;
+    margin-top: -10px; 
+}
+
+.progressLineardemoBasicUsage #loaders > h5 {
+    margin-top: 0; 
+}
+
+.progressLineardemoBasicUsage #loaders > p {
+    margin-right: 20px;
+    margin-bottom: 24px; 
+}
+
+.progressLineardemoBasicUsage p.small {
+    font-size: 0.8em;
+    margin-top: -18px; 
+}
+
+.progressLineardemoBasicUsage hr {
+    width: 100%;
+    margin-top: 20px;
+    border-color: rgba(221, 221, 177, 0.1); 
+}
+
+.progressLineardemoBasicUsage p.small > code {
+    font-size: 0.8em; 
+}
+
+.progressLineardemoBasicUsage .visible {
+    opacity: 0;
+    border: 2px solid white !important; 
+}
+
+.progressLineardemoBasicUsage .container {
+    display: block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #aad1f9;
+    transition: opacity  0.1s linear;
+    border-top: 0px; 
+}
+
+.progressLineardemoBasicUsage .bottom-block {
+    display: block;
+    position: relative;
+    background-color: rgba(255, 235, 169, 0.25);
+    height: 85px;
+    width: 100%; 
+}
+
+.progressLineardemoBasicUsage .bottom-block > span {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 25px;
+    font-size: 0.9em; 
+}
+
+.l-but{
+    width: 100%;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover, a:active, a:focus{
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.right-align{
+    text-align: right;
+}
+
+.back-head{
+    height: 14rem;
+}
+
+.index-head{
+    /*height: 30rem*/
+}
+
+@media only screen and (max-width : 600px) {
+    .back-head{
+        height: 8rem;
+    }
+}
+
+@media only screen and (min-width : 600px) and (max-width : 1000px) {
+    .back-head{
+        height: 12rem;
+    }
+}
+
+.small-logo{
+    height: 3.5rem;
+    width: 3.5rem;
+}

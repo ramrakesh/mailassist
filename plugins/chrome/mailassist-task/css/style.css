@@ -1,0 +1,90 @@
+font-face {
+    font-family: Arima;
+    src: url('../fonts/Arima/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: Lato;
+    src: url('../fonts/Lato/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url('../fonts/Montserrat/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    font-family: Open_Sans;
+    src: url('../fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: Oswald;
+    src: url('../fonts/Oswald/Oswald-Regular.ttf');
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../fonts/Roboto/Roboto-Regular.ttf');
+}
+
+*{
+	margin:0;
+	padding:0;
+}
+
+body{
+	font-family: Open_Sans;
+	width:400px;
+	display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.l-but{
+    width: 100%;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover, a:active, a:focus{
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.right-align{
+    text-align: right;
+}
+
+.back-head{
+    height: 10rem;
+}
+
+.taskList{
+	display: none;
+}
+
+.page-head{
+	padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.small-logo{
+    height: 3.5rem;
+    width: 3.5rem;
+}
+
+.spacing{       
+    height: 2.5em;
+}
+
+.footer-copyright, .home-button{
+	padding: 1rem 1.5rem 1rem 1.5rem;
+}

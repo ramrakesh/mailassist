@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html ng-app = "mailAssistApp" itemscope itemtype="http://schema.org/Article">
+	<head>
+
+		<meta charset = "utf-8">
+        <title>MailAssist</title>
+		
+		<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        <link rel="stylesheet" type = 'text/css' href="https://fonts.googleapis.com/icon?family=Material+Icons" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/bootstrap/css/bootstrap.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/bootstrap/css/bootstrap-theme.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/materialize/css/materialize.min.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/angular-material/angular-material.min.css" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="lib/angular-material/angular-material.min.css" media="screen,projection">
+        <link rel="stylesheet" type = "text/css" href="css/style.css" media="screen,projection">
+
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/materialize/js/materialize.js"></script>        
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular/angular-animate.min.js"></script>
+        <script src="lib/angular/angular-aria.min.js"></script>
+        <script src="lib/angular/angular-messages.min.js"></script>
+        <script src="lib/angular-material/angular-material.min.js"></script>
+        <script src="lib/angular/angular-resource.min.js"></script>        
+        <script src="lib/angular/angular-route.min.js"></script>
+        <script src="lib/jsPDF-master/dist/jspdf.debug.js"></script>
+        
+	</head>
+	<body ng-controller = 'mailAssistController' ng-cloak>
+
+        <!-- Page Loading -->
+        <div class="progress" ng-if = 'loading'>
+            <div class="indeterminate light-blue"></div>
+        </div>
+
+        <!-- Header -->
+        <header ng-if = 'session'>
+            <nav class="light-blue darken-2">
+                <div class="nav-wrapper container">                
+                    <span class = 'flow-text'><b>MailAssist</b></span>
+                    <span class='secondary-content white-text flow-text'>Signed in as: <b>{{name}}</b></span>                
+                </div>
+
+            </nav>
+        </header>
+
+		<!-- Content No Session -->
+        <main class="light-blue darken-2" ng-if = 'noSession'>
+            <div class="row">
+                <div class = "col s10 offset-s1">
+                    <figure>
+                        <img src = 'img/mailassist-logo-dark.png' alt = 'MailAssist' class = 'responsive-img' />
+                    </figure>
+                    <h3 class="center white-text darken-4">MailAssist</h3>
+                    <h3 class="center white-text flow-text">You are not logged in</h3>
+                    <button class="waves-effect waves-light btn-large red accent-2 l-but" ng-click = 'loginPage()'>
+                        <span class = 'glyphicon glyphicon-home'></span> Go to MailAssist Home
+                    </button>
+                    <div class="spacing"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Content Session -->
+        <main ng-if = 'session'>
+            <div class="back-head light-blue">
+                <div class="spacing"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card">
+                                <div class="page-head red accent-2">
+                                    <p class="white-text flow-text">
+                                        <b>Today's Task</b>
+                                        <a class='secondary-content white-text' ng-click = 'save()'><u>Save as PDF</u></a>
+                                        
+                                    </p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="progress" ng-if = 'loadingTask'>
+                                        <div class="indeterminate light-blue"></div>
+                                    </div>
+                                    <h3 ng-if = 'loadingTask' class="flow-text"><b>Getting tasks for today...</b></h3>
+                                    <h3 ng-if = 'no_task' class="flow-text"><b>Congratulations you have no tasks for today.</b></h3>
+                                    <h3 ng-if = 'tasks_present && task_nos != 0' class="flow-text"><b>You have {{task_nos}} <span ng-if = 'task_nos != 1'>tasks</span><span ng-if = 'task_nos == 1'>task</span> for today</b></h3>
+                                    <p ng-if = 'tasks_present && task_nos == 0' class="flow-text justify"><b>Congratulations you have completed all your tasks for today.</b></p>
+                                    <p ng-if = 'tasks_present && task_nos != 0' class="flow-text justify">Please find below a friendly reminder of the <span ng-if = 'task_nos != 1'>tasks that are</span><span ng-if = 'task_nos == 1'>task which is</span> due to be completed today.</p>
+                                    <div ng-if = 'tasks_present' class="spacing"></div>
+                                    <hr ng-if = 'tasks_present'>
+                                    <div ng-repeat='task in tasks' ng-if = 'tasks_present' class = 'mail-item'>
+                                        <div class="row">
+                                            <div class="col s1 m1 flow-text">
+                                                <a ng-click = 'unCheckTask(task.id)' ng-if = 'task.status == "done"' class="teal-text">
+                                                    <span class = 'glyphicon glyphicon-check'></span>
+                                                </a>
+                                                <a ng-click = 'checkTask(task.id)' ng-if = 'task.status == "pending"' class="black-text">
+                                                    <span class = 'glyphicon glyphicon-unchecked'></span>
+                                                </a>
+                                            </div>
+                                            <div class="col s10 m10 flow-text justify">
+                                                {{task.task}}
+                                            </div>
+                                            <div class="col s1 m1 right-align">
+                                                <a ng-if = 'task.typeTask == "mailer"' ng-click = 'viewTask(task.id)' class="black-text flow-text flow-text">
+                                                    <span class = 'glyphicon glyphicon-new-window'></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div ng-if = 'tasks_present' class="row">
+                                        <div class = "col s12">
+                                            <button class="waves-effect waves-light btn-large blue-grey darken-3 l-but flow-text" ng-click = 'manageTasks()'>
+                                                <span class = 'glyphicon glyphicon-pencil'></span> Manage Tasks
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div ng-if = 'tasks_present' class="row">
+                                        <div class = "col s12">
+                                            <button class="waves-effect waves-light btn-large teal accent-4 l-but flow-text" ng-click = 'viewRems()'>
+                                                <span class = 'glyphicon glyphicon-calendar'></span> View All Reminders
+                                            </button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="spacing"></div>
+                <div id = 'taskList' class = "taskList">
+                    <h2>MailAssist Task List</h2>
+                    <h5>{{date_text}}</h5>
+                    <p style="color:white;">Divider</p>
+                    <h6 class="justify">Please find below a friendly reminder of the tasks that are due to be completed today.</h6>
+                    <p style="color:white;">Divider</p>
+                    <div ng-repeat = 'task in tasks'>
+                        <p><b>Task {{$index + 1}}:</b> {{task.task}}</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Header -->
+        <footer ng-if = 'session'>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <button class="waves-effect waves-light btn-large red accent-2 l-but flow-text" ng-click = 'openHome()'>
+                            <span class = 'glyphicon glyphicon-home'></span> Go to MailAssist Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright light-blue darken-3">
+                <div class="container">
+                    <p class="grey-text text-lighten-4">Signed in as: <b>{{user}} ({{email}})</b></p>
+                </div>
+            </div>
+        </footer>
+
+        <div id="modal1" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h4 class="flow-text"><b>Task:</b> {{taskShow.task}}</h4>
+                <h4 class="flow-text"><b>Notification:</b> {{taskShow.notif}}</h4>
+                <div class="spacing"></div>
+                <h5 class="flow-text"><b>Subject:</b> {{taskShow.subject}}</h5>
+                <h5 class="flow-text"><b>Message:</b> {{taskShow.content}}</h5>
+                <h5 class="flow-text"><b>Sender:</b> {{taskShow.sender}}</h5>
+                <div class="spacing"></div>
+                <a href = '{{taskShow.link}}' class="waves-effect waves-green btn blue accent-4" target = '_blank'>View Email</a>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+            </div>
+        </div>
+
+        <!-- App Controllers -->
+        <script type="text/javascript" src = "js/app.js"></script>
+        <script type="text/javascript" src = "js/controllers/main-controller.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<li>
+	<div class="row">
+		<div class="col s12">
+			<div class="card">
+	            <div class="card-image">
+	              	<img ng-if = '!picture' src = "{% static 'user/img/icon-user.png' %}" alt = "Avatar" class = 'responsive-img'>
+	              	{% verbatim %}
+	            	<img ng-if = 'picture' src = "{{pictureURL}}" alt = "Avatar" class = 'responsive-img'>
+	            	{% endverbatim %} 
+	            </div>
+	            {% verbatim %}
+	            <div class="card-content">
+	            	<h5>{{name}}</h5>
+	              	<p>{{email}}</p>
+	            </div>
+	            {% endverbatim %} 
+			</div>
+		</div>
+	</div>        
+</li>
+<!-- <li><a ng-click = 'changePage("compose")' class="waves-effect waves-light btn blue darken-2 white-text"><b><span class="glyphicon glyphicon-pencil"></span> Compose Mail</b></a></li>
+<li class = 'sade-nav-tabs' ng-class="inbox?'active-side-nav':''"><a ng-click = 'changePage("inbox")'><b><span class="glyphicon glyphicon-envelope"></span> Inbox</b></a></li>
+<li class = 'sade-nav-tabs' ng-class="sent?'active-side-nav':''"><a ng-click = 'changePage("sent")'><b><span class="glyphicon glyphicon-send"></span> Sent</b></a></li> -->
+<!-- <li><a ng-click = 'changePage("index")' class="waves-effect waves-light btn blue darken-2 white-text"><b><span class="glyphicon glyphicon-list-alt"></span> Today's Task</b></a></li> -->
+<li class = 'sade-nav-tabs' ng-class="index?'active-side-nav':''"><a ng-click = 'changePage("index")'><b><span class="glyphicon glyphicon-list-alt"></span> Today's Task</b></a></li>
+<li class = 'sade-nav-tabs' ng-class="reminders?'active-side-nav':''"><a ng-click = 'changePage("reminders")'><b><span class="glyphicon glyphicon-calendar"></span> Reminders</b></a></li>
+<li class = 'sade-nav-tabs' ng-class="missed?'active-side-nav':''"><a ng-click = 'changePage("history")'><b><span class="glyphicon glyphicon-time"></span> History</b></a></li>
+<!-- <li class = 'sade-nav-tabs' ng-class="preferences?'active-side-nav':''"><a ng-click = 'changePage("preferences")'><b><span class="glyphicon glyphicon-cog"></span> Preferences</b></a></li> -->
+<li class = 'sade-nav-tabs' ng-class="keywords?'active-side-nav':''"><a ng-click = 'changePage("keywords")'><b><span class="glyphicon glyphicon-th-list"></span> Keywords</b></a></li>
+<li><a href="logout/logout" class="waves-effect waves-light btn red accent-2 white-text"><b><span class="glyphicon glyphicon-log-out"></span> Logout</b></a></li>

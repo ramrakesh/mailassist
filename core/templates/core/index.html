@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app = "mailAssistApp" itemscope itemtype="http://schema.org/Article">
+	<head>
+
+		<meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>MailAssist</title>
+		
+		<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        {% load staticfiles %}
+
+		<link rel="stylesheet" type = 'text/css' href="https://fonts.googleapis.com/icon?family=Material+Icons" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/bootstrap/css/bootstrap.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/bootstrap/css/bootstrap-theme.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/materialize/css/materialize.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/angular-material/angular-material.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = 'text/css' href="{% static 'core/lib/angular-material/angular-material.min.css' %}" media="screen,projection">
+        <link rel="stylesheet" type = "text/css" href="{% static 'core/css/style.css' %}" media="screen,projection">
+
+        <script src="{% static 'core/lib/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'core/lib/materialize/js/materialize.js' %}"></script>        
+        <script src="{% static 'core/lib/angular/angular.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-animate.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-aria.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-messages.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular-material/angular-material.min.js' %}"></script>
+        <script src="{% static 'core/lib/angular/angular-resource.min.js' %}"></script>        
+        <script src="{% static 'core/lib/angular/angular-route.min.js' %}"></script>
+        
+        
+	</head>
+	<body>
+
+		<!--header -->        
+        <header ng-include = "'MailAssistCoreTemplates/header-template.html'"></header>
+        
+        <!-- Content -->
+        <main>
+            <div ng-view></div>
+        </main>
+
+        <!--Footer-->
+        <footer ng-include = "'MailAssistCoreTemplates/footer-template.html'">  
+        </footer>
+
+        <!-- App Controllers -->
+        <script type="text/javascript" src = "{% static 'core/controllers/app.js' %}"></script>
+        <script type="text/javascript" src = "{% static 'core/controllers/controllers/index-controller.js' %}"></script>
+
+	</body>
+</html>

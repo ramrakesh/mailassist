@@ -1,0 +1,72 @@
+{% load staticfiles %}
+
+<div class="back-head light-blue darken-2">
+	<div class="spacing"></div>
+	<div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                	<div class="page-head">
+                		<p class="black-text flow-text">New Message</p>
+                	</div>
+                    <div class="card-content">
+                    	{% verbatim %}
+                    	<div class="row">
+                    		<div class="col s2">
+                    			<strong class="flow-text">To:</strong>
+                    		</div>
+                    		<div class="col s10">
+                    			<div class="chips"></div>
+                    		</div>
+                    		<script type="text/javascript">
+                    			$(document).ready(function(){
+                    				$('.chips').material_chip();
+                    			});
+                    		</script>
+                    	</div>
+                    	<hr>
+                    	<div class="row">
+                    		<div class="col s2">
+                    			<strong class="flow-text">Cc:</strong>
+                    		</div>
+                    		<div class="col s10">
+                    			<div class="chips"></div>
+                    		</div>
+                    		<script type="text/javascript">
+                    			$(document).ready(function(){
+                    				$('.chips').material_chip();
+                    			});
+                    		</script>
+                    	</div>
+                    	<hr>
+                    	<div class="row">
+                    		<div class="col s2">
+                    			<strong class="flow-text">Bcc:</strong>
+                    		</div>
+                    		<div class="col s10">
+                    			<div class="chips"></div>
+                    		</div>
+                    		<script type="text/javascript">
+                    			$(document).ready(function(){
+                    				$('.chips').material_chip();
+                    			});
+                    		</script>
+                    	</div>
+                    	<hr>
+                    	<div class="row">
+                    		<div class="col s2">
+                    			<strong class="flow-text">Subject:</strong>
+                    		</div>
+                    		<div class="col s10">
+                    			
+                    		</div>
+                    	</div>
+                    	<hr>
+                        <button class="waves-effect waves-light btn-large n-but red accent-2">Send</button>
+	  					{% endverbatim %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+header, main, footer {
+    padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+}
+
+.date-time{
+	margin-bottom: 3em;
+}
+
+.reminder, .justify{
+	text-align: justify;
+}
+
+.taskList{
+	display: none;
+}
+
+.mail-select{
+	text-align: left
+}
+
+.mail-time{
+	text-align: right;
+}
+
+.mail-body{
+	cursor: pointer;
+}
+
+.mail-item .lists{
+	border:1px solid #B6B6B6;
+	padding: 5px;
+	margin-top: 0px;
+	margin-bottom:-1px; 
+}
+
+.mail-nav{
+	margin-top: 1rem;
+}
+
+.side-nav li{
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding: 0px;
+}
+
+.sade-nav-tabs, .sade-nav-tabs a{
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding: 0;
+}
+
+.sade-nav-tabs:hover{
+	background-color: rgba(0,0,0,0.05);
+}
+
+.active-side-nav{
+	border: solid;
+	border-width:0px;
+	border-left-width:0.4rem;
+	background-color: rgba(0,0,0,0.05);
+	border-color: #0288D1;
+}
+
+.reminder-item .row{
+	padding: 0px;
+}
+
+.set-item{
+	border: dashed;
+	border-width: 0px 0px 1px 0px;
+	padding: 5px;
+}
+
+.page-head{
+	padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+.rem-header{
+	padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.task-item{
+	padding: 1.5rem 1rem 2rem 1rem;
+}

@@ -1,0 +1,23 @@
+WARNING:oauth2client.util:step1_get_authorize_url() takes at most 1 positional argument (2 given)
+WARNING:oauth2client.client:The redirect_uri parameter for OAuth2WebServerFlow.step1_get_authorize_url is deprecated. Please move to passing the redirect_uri in via the constructor.
+ERROR:django.request:Internal Server Error: /gmailCallback/oauth2callback
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\mailassist\core\api.py", line 44, in gmailLoginStep2
+    credentials = flow.step2_exchange(auth_code)
+  File "C:\Python27\lib\site-packages\oauth2client\util.py", line 137, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\oauth2client\client.py", line 2027, in step2_exchange
+    headers=headers)
+  File "C:\Python27\lib\site-packages\httplib2\__init__.py", line 1609, in request
+    (response, content) = self._request(conn, authority, uri, request_uri, method, body, headers, redirections, cachekey)
+  File "C:\Python27\lib\site-packages\httplib2\__init__.py", line 1351, in _request
+    (response, content) = self._conn_request(conn, request_uri, method, body, headers)
+  File "C:\Python27\lib\site-packages\httplib2\__init__.py", line 1272, in _conn_request
+    conn.connect()
+  File "C:\Python27\lib\site-packages\httplib2\__init__.py", line 1075, in connect
+    raise socket.error, msg
+error: [Errno 10061] No connection could be made because the target machine actively refused it

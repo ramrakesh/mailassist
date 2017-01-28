@@ -1,0 +1,155 @@
+{% load staticfiles %}
+
+<div class="back-head light-blue" ng-controller = 'reminderController' ng-cloak>
+    <div class="spacing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text"><b>Reminders</b></p>
+                    </div>
+                    <div class="card-content">
+                        <div class="progress" ng-if = 'loading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                        {% verbatim %}
+                        <h3 ng-if = 'loading' class="flow-text"><b>Getting your reminders...</b></h3>
+                        <h3 ng-if = 'no_task' class="flow-text"><b>No reminders are Set</b></h3>
+                        <div ng-if = 'tasks_present' ng-repeat = 'date in dates'>
+                            <div class="rem-header cyan darken-4">
+                                <p class="white-text flow-text">
+                                    <b>{{conDate(date)}} ({{getDay(date)}})</b>
+                                    <span class="secondary-content ">
+                                        <a class="white-text" ng-click = 'addReminder($event, date, conDate(date))'>
+                                            <md-tooltip md-direction="left">Add New Reminder</md-tooltip>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </a>
+                                        <a class="white-text" ng-click = 'checkAll($event, date, conDate(date))'>
+                                            <md-tooltip md-direction="left">Mark All Reminders as Completed</md-tooltip>
+                                            <span class="glyphicon glyphicon-check"></span>
+                                        </a>
+                                        <a class="white-text" ng-click = 'unCheckAll($event, date, conDate(date))'>
+                                            <md-tooltip md-direction="left">Mark All Reminders as Pending</md-tooltip>
+                                            <span class="glyphicon glyphicon-unchecked"></span>
+                                        </a>
+                                        <a class="white-text" ng-click = 'dismissAll($event, date, conDate(date))'>
+                                            <md-tooltip md-direction="left">Dismiss All Reminders</md-tooltip>
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="task-item">
+                                <div ng-repeat='task in tasks | filter:date' ng-if = 'tasks_present'>
+                                    <div class="row">
+                                        <div class="col s1 m1 flow-text">
+                                            <a ng-click = 'unCheckRem(task.id)' ng-if = 'task.status == "done"' class="teal-text">
+                                                <md-tooltip md-direction="left">Mark as Pending</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-check'></span>
+                                            </a>
+                                            <a ng-click = 'checkRem(task.id)' ng-if = 'task.status == "pending"' class="black-text">
+                                                <md-tooltip md-direction="left">Mark as Completed</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-unchecked'></span>
+                                            </a>
+                                        </div>
+                                        <div class="col s7 m9 flow-text">
+                                            {{task.task}}
+                                        </div>
+                                        <div class="col s4 m2 right-align">
+                                            <a ng-if = 'task.typeTask == "mailer"' ng-click = 'viewTask(task.id)' class="black-text flow-text">
+                                                <md-tooltip md-direction="left">View Reminder</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-new-window'></span>
+                                            </a>
+                                            <a ng-click = 'editTask($event,task.id,task.task)' class="teal-text text-accent-4 flow-text">
+                                                <md-tooltip md-direction="left">Edit</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-pencil'></span>
+                                            </a>
+                                            <a ng-click = 'dismissTask($event,task.id)' class="deep-orange-text text-accent-4 flow-text">
+                                                <md-tooltip md-direction="left">Dismiss</md-tooltip>
+                                                <span class = 'glyphicon glyphicon-trash'></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div ng-if = 'tasks_present' class="spacing"></div>
+                        {% endverbatim %}
+                    </div>
+                </div>
+            </div>
+            <div ng-if = '!addRemTemp' class="col s12 right-align">
+                <button class="waves-effect waves-effect waves-light btn-large red accent-2" ng-click="openRemConsole()">
+                    <span class="glyphicon glyphicon-plus"></span> Add New Reminder
+                </button>
+            </div>
+        </div>
+    </div>
+    <div ng-if = 'addRemTemp' class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="page-head red accent-2">
+                        <p class="white-text flow-text">
+                            <b>Add new reminder</b>
+                            <a class="secondary-content white-text" ng-click="closeRemConsole()"><md-tooltip md-direction="left">Cancel</md-tooltip><span class="glyphicon glyphicon-remove"></span></a>
+                        </p>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id = 'date' type="date" class="datepicker" ng-model = 'newRem.date'>
+                                <label for="date">Date</label>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $('.datepicker').pickadate({
+                                            selectMonths: true, // Creates a dropdown to control month
+                                            selectYears: 15 // Creates a dropdown of 15 years to control year
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div class="input-field col s12 m8">
+                                <input id="input_text" type="text" ng-model = 'newRem.rem'>
+                                <label for="input_text">Reminder</label>
+                            </div>                            
+                            <div class="col s12" ng-if = '!addRemLoading'>
+                                <button class="waves-effect waves-light btn-large n-but red accent-2" ng-click = 'addNewRem()'>
+                                    <span class="glyphicon glyphicon-plus"></span> Add
+                                </button>
+                            </div>
+                            {% verbatim %}
+                            <div ng-if = 'addRemErrorP' class="col s12">
+                                <h3 class="flow-text red-text">{{addRemError}}
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                        <div class="progress" ng-if = 'addRemLoading'>
+                            <div class="indeterminate light-blue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal1" class="modal bottom-sheet">
+        {% verbatim %}
+        <div class="modal-content">
+            <h4 class="flow-text"><b>Reminder:</b> {{taskShow.task}}</h4>
+            <h4 class="flow-text"><b>Date:</b> {{taskShow.date}}</h4>
+            <h4 class="flow-text"><b>Notification:</b> {{taskShow.notif}}</h4>
+            <div class="spacing"></div>
+            <h5 class="flow-text"><b>Subject:</b> {{taskShow.subject}}</h5>
+            <h5 class="flow-text"><b>Message:</b> {{taskShow.content}}</h5>
+            <h5 class="flow-text"><b>Sender:</b> {{taskShow.sender}}</h5>
+            <div class="spacing"></div>
+            <a href = '{{taskShow.link}}' class="waves-effect waves-green btn blue accent-4" target = '_blank'>View Email</a>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+        </div>
+        {% endverbatim %}
+    </div>
+</div>
