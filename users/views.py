@@ -3,6 +3,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from . import api
 import time
+from django.views.decorators import csrf
 from django.views.decorators.csrf import csrf_exempt
 
 from .settings import redirectHelper
