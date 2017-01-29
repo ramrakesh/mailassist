@@ -1185,23 +1185,23 @@ def getRemsTextProc(textInp,input_key):
 		####### find financial related details from the input text #########
 
 		
-		for i in range(0,len((b['money_expression_list']))):
-			id_ch+=1
-			str1= "Financial information with amount of " + b['money_expression_list'][i]['form']
-			str2= "Forward to the details to finance department of amount"+ b['money_expression_list'][i]['form']
-			str3= "Forward to the financial details of  amount "+ b['money_expression_list'][i]['form'] + "to"
-			values=[id_ch,str1,rem1]
-			dictio=dict(zip(keys,values))
-	# print dictio
-			main_dict.append(dictio)
-			values1=[id_ch,str2,rem1]
-			dictio=dict(zip(keys,values1))
-	# print dictio
-			main_dict.append(dictio1)
-			values2=[id_ch,str3,rem1]
-			dictio2=dict(zip(keys,values2))
-	# print dictio
-			main_dict.append(dictio2)
+	# 	for i in range(0,len((b['money_expression_list']))):
+	# 		id_ch+=1
+	# 		str1= "Financial information with amount of " + b['money_expression_list'][i]['form']
+	# 		str2= "Forward to the details to finance department of amount"+ b['money_expression_list'][i]['form']
+	# 		str3= "Forward to the financial details of  amount "+ b['money_expression_list'][i]['form'] + "to"
+	# 		values=[id_ch,str1,rem1]
+	# 		dictio=dict(zip(keys,values))
+	# # print dictio
+	# 		main_dict.append(dictio)
+	# 		values1=[id_ch,str2,rem1]
+	# 		dictio=dict(zip(keys,values1))
+	# # print dictio
+	# 		main_dict.append(dictio1)
+	# 		values2=[id_ch,str3,rem1]
+	# 		dictio2=dict(zip(keys,values2))
+	# # print dictio
+	# 		main_dict.append(dictio2)
 
 
 		# txt007.append(txt5)
