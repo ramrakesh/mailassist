@@ -20,7 +20,7 @@ nltk==3.2.1
 numpy==1.11.2
 oauth2client==3.0.0
 psycopg2==2.6.2
-py-mysql2pgsql==0.1.6
+py-mysql2pgsql==0.1.5
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
 python-dateutil==2.6.0
