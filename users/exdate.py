@@ -6,12 +6,13 @@ from textblob import TextBlob
 from textblob import Word
 from textblob import *
 from nltk.tokenize import sent_tokenize
-import enchant
-from enchant.checker import SpellChecker
+# import enchant
+# from enchant.checker import SpellChecker
 import datetime
 import re
 import calendar
 import datefinder
+nltk.data.path.append('./nltk_data/')
 
 # def getRemsTextProc(textInp,input_key):
 	# txt=""

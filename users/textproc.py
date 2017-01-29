@@ -1,6 +1,7 @@
 import requests
 import sys
 import nltk
+nltk.data.path.append('./nltk_data/')
 import time
 from textblob import TextBlob
 from textblob import Word
@@ -12,6 +13,7 @@ import datetime
 import re
 import calendar
 import datefinder
+
 
 def getRemsTextProc(textInp,input_key):
 	# txt=""
