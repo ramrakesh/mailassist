@@ -498,19 +498,19 @@ def getRemsTextProc(textInp,input_key):
 
 		if countw_find is not None:
 			dawt=today
-			if countd_find.group(2) in prs:
+			if countw_find.group(2) in prs:
 				daft=today+datetime.timedelta(weeks=1)
 					# print daft
 			elif tex2in.has_key(countd_find.group(2)):
-				k=tex2in.get(countd_find.group(2))
+				k=tex2in.get(countw_find.group(2))
 				daft=today+datetime.timedelta(weeks=k)
 
-			elif countd_find.group(1) in befw:
-					k=int(countd_find.group(2))
+			elif countw_find.group(1) in befw:
+					k=int(countw_find.group(2))
 					daft=today+datetime.timedelta(weeks=k)   
 					# print daft
-			elif countd_find.group(3) in aftw:
-					k=int(countd_find.group(2))
+			elif countw_find.group(3) in aftw:
+					k=int(countw_find.group(2))
 					daft=today+datetime.timedelta(weeks=k)
 					# print dawt
 			str1="{0}".format(dayu)
