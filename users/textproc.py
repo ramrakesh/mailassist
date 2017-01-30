@@ -320,11 +320,11 @@ def getRemsTextProc(textInp,input_key):
 			else:
 			  matchda_fin1 = None
 
-		url = "http://api.meaningcloud.com/topics-2.0"
-		payload = "key=1874cd60759c34f1c7e5e43f659f6a77&lang=en&txt="+txt+"&tt=a&timeref=DD-MM-YYYY HH:MM:SS GMT+05:30"
-		headers = {'content-type': 'application/x-www-form-urlencoded'}
-		response = requests.request("POST", url, data=payload, headers=headers)
-		b=response.json()
+		# url = "http://api.meaningcloud.com/topics-2.0"
+		# payload = "key=1874cd60759c34f1c7e5e43f659f6a77&lang=en&txt="+txt+"&tt=a&timeref=DD-MM-YYYY HH:MM:SS GMT+05:30"
+		# headers = {'content-type': 'application/x-www-form-urlencoded'}
+		# response = requests.request("POST", url, data=payload, headers=headers)
+		# b=response.json()
 		# print b
 		####### calculate dates of any format #########  
 		# if b['time_expression_list'] :
@@ -411,12 +411,12 @@ def getRemsTextProc(textInp,input_key):
 				daft=today+datetime.timedelta(days=k)
 
 			elif countd_find.group(1) in befw:
-					k=int(countd_find.group(2))
-					daft=today+datetime.timedelta(days=k)   
+				k=int(countd_find.group(2))
+				daft=today+datetime.timedelta(days=k)   
 					# print daft
 			elif countd_find.group(3) in aftw:
-					k=int(countd_find.group(2))
-					daft=today+datetime.timedelta(days=k)
+				k=int(countd_find.group(2))
+				daft=today+datetime.timedelta(days=k)
 					# print daft
 				
 			str1="{0}".format(daft)
@@ -459,14 +459,14 @@ def getRemsTextProc(textInp,input_key):
 				#     z= m*365/12
 				
 			elif countm_find.group(1) in befw:
-					m=int(countm_find.group(2))
-					z=m*365/12
-					damt=today+datetime.timedelta(days=z)   
+				m=int(countm_find.group(2))
+				z=m*365/12
+				damt=today+datetime.timedelta(days=z)   
 					# print damt
 			elif countm_find.group(3) in aftw:
-					m=int(countm_find.group(2))
-					z=m*365/12
-					damt=today+datetime.timedelta(days=z)
+				m=int(countm_find.group(2))
+				z=m*365/12
+				damt=today+datetime.timedelta(days=z)
 					# print damt
 				
 					# print damt
@@ -499,21 +499,21 @@ def getRemsTextProc(textInp,input_key):
 		if countw_find is not None:
 			dawt=today
 			if countw_find.group(2) in prs:
-				daft=today+datetime.timedelta(weeks=1)
+				dawt=today+datetime.timedelta(weeks=1)
 					# print daft
 			elif tex2in.has_key(countd_find.group(2)):
 				k=tex2in.get(countw_find.group(2))
-				daft=today+datetime.timedelta(weeks=k)
+				dawt=today+datetime.timedelta(weeks=k)
 
 			elif countw_find.group(1) in befw:
-					k=int(countw_find.group(2))
-					daft=today+datetime.timedelta(weeks=k)   
+				k=int(countw_find.group(2))
+				dawt=today+datetime.timedelta(weeks=k)   
 					# print daft
 			elif countw_find.group(3) in aftw:
-					k=int(countw_find.group(2))
-					daft=today+datetime.timedelta(weeks=k)
+				k=int(countw_find.group(2))
+				dawt=today+datetime.timedelta(weeks=k)
 					# print dawt
-			str1="{0}".format(dayu)
+			str1="{0}".format(dawt)
 			rem1=str1
 			#rem5.append(rem1)
 			rem2.append(str1)
